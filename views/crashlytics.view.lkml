@@ -1,10 +1,12 @@
 view: crashlytics {
   sql_table_name: `friendlypix-prod.crashlytics.com_google_friendlypix_IOS`;;
+  drill_fields: [user__email,operating_system__display_version,device__manufacturer,application__build_version]
 
   dimension: app_orientation {
     type: string
     description: "The orientation of the application at time of the event. PORTRAIT, LANDSCAPE, FACE_UP, or FACE_DOWN."
     sql: ${TABLE}.app_orientation;;
+    group_label: "Orientation"
   }
 
   dimension: application__build_version {
@@ -39,14 +41,14 @@ view: crashlytics {
     type: string
     description:  "The filename of the frame."
     sql: ${TABLE}.blame_frame.file;;
-    group_label: "Blame Frame "
+    group_label: "Blame Frame"
   }
 
   dimension: blame_frame__library {
     type: string
     description:  "The display name of the library that includes this frame."
     sql: ${TABLE}.blame_frame.library;;
-    group_label:  "Blame Frame "
+    group_label:  "Blame Frame"
   }
 
   dimension: blame_frame__line {
@@ -124,6 +126,7 @@ view: crashlytics {
     type: string
     description: "The orientation of the device at time of the event. PORTRAIT, LANDSCAPE, FACE_UP, or FACE_DOWN."
     sql: ${TABLE}.device_orientation;;
+    group_label: "Orientation"
   }
 
   dimension: errors {
@@ -132,6 +135,7 @@ view: crashlytics {
   }
 
   dimension: event_id {
+    primary_key: yes
     type: string
     description: "The unique ID of this event."
     sql: ${TABLE}.event_id;;
@@ -165,18 +169,30 @@ view: crashlytics {
     type: string
     description: "The issue associated with this event."
     sql: ${TABLE}.issue_id;;
+    group_label: "Issue"
+    action: {
+      label: "Create Issue in Github"
+      url: "https://dummyurl.com"
+      icon_url: "https://image.flaticon.com/icons/png/512/25/25231.png"
+    }
+    link: {
+      label: "Issue Investigation Dashboard"
+      url: "https://protodemo.cloud.looker.com/dashboards-next/67?Issue+ID={{ value }}"
+    }
   }
 
   dimension: issue_subtitle {
     type: string
     description: "The issue subtitle."
     sql: ${TABLE}.issue_subtitle;;
+    group_label: "Issue"
   }
 
   dimension: issue_title {
     type: string
     description: "The issue title."
     sql: ${TABLE}.issue_title;;
+    group_label: "Issue"
   }
 
   dimension: logs {
@@ -269,6 +285,10 @@ view: crashlytics {
     description: "The email address of the end-user."
     sql: ${TABLE}.user.email;;
     group_label: "User"
+    action: {
+      label: "Send User an Email"
+      url: "https://send_user+email.com"
+    }
   }
 
   dimension: user__id {
@@ -286,12 +306,38 @@ view: crashlytics {
   }
 
   measure: count {
+    label: "Number of Errors"
     type: count
-    drill_fields: [user__name, operating_system__name]
+  }
+
+  measure: user_count {
+    label: "Number of Users Affected"
+    type: count_distinct
+    sql:  ${user__id};;
+    drill_fields: [user__id, user__name, user__email]
+  }
+
+  measure: installation_count {
+    label: "Number of Installations Affected"
+    type: count_distinct
+    sql:  ${installation_uuid};;
+    drill_fields: [device__manufacturer, device__model, user__id, user__email]
+  }
+
+  measure: count_fatal {
+    label: "Number of Crashes"
+    type: count
+    filters: [is_fatal: "yes"]
   }
 }
 
 view: crashlytics__errors {
+  dimension: pk {
+    primary_key: yes
+    hidden: yes
+    sql: concat(${code},"-",${crashlytics.event_id}) ;;
+  }
+
   dimension: blamed {
     type: yesno
     description: "Whether analysis blames this stacktrace as the cause of the error."
@@ -329,6 +375,12 @@ view: crashlytics__errors {
 }
 
 view: crashlytics__logs {
+  dimension: pk {
+    primary_key: yes
+    hidden: yes
+    sql: concat(${timestamp_raw},"-",${crashlytics.event_id}) ;;
+  }
+
   dimension: message {
     type: string
     description: "The log message itself."
@@ -344,6 +396,12 @@ view: crashlytics__logs {
 }
 
 view: crashlytics__threads {
+  dimension: pk {
+    primary_key: yes
+    hidden: yes
+    sql: concat(${thread_name},"-",${crashlytics.event_id}) ;;
+  }
+
   dimension: blamed {
     type: yesno
     description: "Whether analysis blames this stacktrace as the cause of the crash or error."
@@ -529,7 +587,7 @@ view: crashlytics__errors__frames {
     description: "The hydrated symbol, or the raw symbol if it's unhydrateable."
     sql: ${TABLE}.symbol;;
   }
-  }
+}
 
 view: crashlytics__threads__frames {
   dimension: address {
@@ -643,4 +701,4 @@ view: crashlytics__breadcrumbs__params {
     description: "The value."
     sql: ${TABLE}.value;;
   }
-  }
+}
