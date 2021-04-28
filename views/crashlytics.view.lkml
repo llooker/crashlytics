@@ -1,5 +1,5 @@
 view: crashlytics {
-  sql_table_name: `friendlypix-prod.crashlytics.com_google_friendlypix_IOS`;;
+  sql_table_name: `firebase_crashlytics.com_wishabi_Flipp_iOS_IOS`;;
   drill_fields: [user__email,operating_system__display_version,device__manufacturer,application__build_version]
 
   dimension: app_orientation {
