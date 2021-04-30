@@ -2,6 +2,7 @@ view: crashlytics {
   sql_table_name: `@{SCHEMA_NAME}.@{APP_NAME}_{% parameter developer_platform %}`;;
 
   parameter: developer_platform {
+    type: unquoted
     description: "The platform, either WEB, IOS or ANDROID (used to chose the table)"
     allowed_value: {
       value: "IOS"
