@@ -1,6 +1,18 @@
 view: crashlytics {
-  sql_table_name: `firebase_crashlytics.com_wishabi_Flipp_iOS_IOS`;;
-  drill_fields: [user__email,operating_system__display_version,device__manufacturer,application__build_version]
+  sql_table_name: `@{SCHEMA_NAME}.@{APP_NAME}_{% parameter developer_platform %}`;;
+
+  parameter: developer_platform {
+    description: "The platform, either WEB, IOS or ANDROID (used to chose the table)"
+    allowed_value: {
+      value: "IOS"
+    }
+    allowed_value: {
+      value: "WEB"
+    }
+    allowed_value: {
+      value: "ANDROID"
+    }
+  }
 
   dimension: app_orientation {
     type: string
@@ -17,6 +29,7 @@ view: crashlytics {
   }
 
   dimension: application__display_version {
+    order_by_field: application__build_version
     type: string
     description: "The display version of the application. E.g. 4.1.7."
     sql: ${TABLE}.application.display_version ;;
@@ -85,12 +98,14 @@ view: crashlytics {
   }
 
   dimension: bundle_identifier {
+    hidden: yes
     type: string
     description: "The bundle identifier. E.g. com.google.gmail."
     sql: ${TABLE}.bundle_identifier;;
   }
 
   dimension: crashlytics_sdk_version {
+    hidden: yes
     type: string
     description: "The version of the Crashlytics SDK used to generate this event, e.g. 2.1.2."
     sql: ${TABLE}.crashlytics_sdk_version;;
@@ -142,9 +157,10 @@ view: crashlytics {
   }
 
   dimension_group: event_timestamp {
+    label: "Event"
     type: time
     description: "The time of the event occurrence."
-    timeframes: [raw, time, date, week, month, quarter, year]
+    timeframes: [raw, time, date, week, month, quarter, year, hour, hour3, hour12]
     sql: ${TABLE}.event_timestamp;;
   }
 
@@ -169,30 +185,25 @@ view: crashlytics {
     type: string
     description: "The issue associated with this event."
     sql: ${TABLE}.issue_id;;
-    group_label: "Issue"
-    action: {
-      label: "Create Issue in Github"
-      url: "https://dummyurl.com"
-      icon_url: "https://image.flaticon.com/icons/png/512/25/25231.png"
-    }
-    link: {
-      label: "Issue Investigation Dashboard"
-      url: "https://protodemo.cloud.looker.com/dashboards-next/67?Issue+ID={{ value }}"
-    }
+    view_label: "Issue"
   }
 
   dimension: issue_subtitle {
     type: string
     description: "The issue subtitle."
     sql: ${TABLE}.issue_subtitle;;
-    group_label: "Issue"
+    view_label: "Issue"
   }
 
   dimension: issue_title {
     type: string
     description: "The issue title."
     sql: ${TABLE}.issue_title;;
-    group_label: "Issue"
+    view_label: "Issue"
+    link: {
+      label: "Issue Investigation Dashboard"
+      url: "/dashboards-next/2?Issue+ID={{ issue_id._value }}"
+    }
   }
 
   dimension: logs {
@@ -243,6 +254,7 @@ view: crashlytics {
   }
 
   dimension: platform {
+    group_label: "Operating System"
     type: string
     description: "The platform. ANDROID or IOS."
     sql: ${TABLE}.platform;;
@@ -255,6 +267,7 @@ view: crashlytics {
   }
 
   dimension_group: received_timestamp {
+    hidden: yes
     type: time
     description: "The time the event was received from the device."
     timeframes: [raw, time, date, week, month, quarter, year]
@@ -308,13 +321,14 @@ view: crashlytics {
   measure: count {
     label: "Number of Errors"
     type: count
+    drill_fields: []
   }
 
   measure: user_count {
     label: "Number of Users Affected"
     type: count_distinct
     sql:  ${user__id};;
-    drill_fields: [user__id, user__name, user__email]
+    drill_fields: [user__id, user__name, user__email, count, count_issues]
   }
 
   measure: installation_count {
@@ -328,6 +342,24 @@ view: crashlytics {
     label: "Number of Crashes"
     type: count
     filters: [is_fatal: "yes"]
+  }
+
+  measure: count_issues {
+    view_label: "Issue"
+    label: "Number of Issues"
+    type: count_distinct
+    sql: ${issue_id} ;;
+    drill_fields: [issue_id,issue_title,application__display_version,operating_system__display_version,count,user_count]
+  }
+
+  measure: first_date {
+    type: date_time
+    sql: min(${event_timestamp_raw}) ;;
+  }
+
+  measure: last_date {
+    type: date_time
+    sql: max(${event_timestamp_raw}) ;;
   }
 }
 
@@ -541,48 +573,56 @@ view: crashlytics__breadcrumbs {
 
 view: crashlytics__errors__frames {
   dimension: address {
+    group_label: "Frames"
     type: number
     description: "The address in the binary image which contains the code."
     sql: ${TABLE}.address;;
   }
 
   dimension: blamed {
+    group_label: "Frames"
     type: yesno
     description: "Whether analysis blames this frame as the cause of the crash or error."
     sql: ${TABLE}.blamed;;
   }
 
   dimension: file {
+    group_label: "Frames"
     type: string
     description: "The filename of the frame."
     sql: ${TABLE}.file;;
   }
 
   dimension: library {
+    group_label: "Frames"
     type: string
     description: "The display name of the library that includes this frame."
     sql: ${TABLE}.library;;
   }
 
   dimension: line {
+    group_label: "Frames"
     type: number
     description: "Line number within the file of the frame."
     sql: ${TABLE}.line;;
   }
 
   dimension: offset {
+    group_label: "Frames"
     type: number
     description: "The byte offset into the binary image which contains the code."
     sql: ${TABLE}.offset;;
   }
 
   dimension: owner {
+    group_label: "Frames"
     type: string
     description: "The component of a mobile runtime that owns the frame. DEVELOPER, VENDOR, RUNTIME, PLATFORM, or SYSTEM."
     sql: ${TABLE}.owner;;
   }
 
   dimension: symbol {
+    group_label: "Frames"
     type: string
     description: "The hydrated symbol, or the raw symbol if it's unhydrateable."
     sql: ${TABLE}.symbol;;
@@ -591,24 +631,28 @@ view: crashlytics__errors__frames {
 
 view: crashlytics__threads__frames {
   dimension: address {
+    group_label: "Frames"
     type: number
     description: "The address in the binary image which contains the code."
     sql: ${TABLE}.address;;
   }
 
   dimension: blamed {
+    group_label: "Frames"
     type: yesno
     description: "Whether analysis blames this frame as the cause of the crash or error."
     sql: ${TABLE}.blamed;;
   }
 
   dimension: file {
+    group_label: "Frames"
     type: string
     description: "The filename of the frame."
     sql: ${TABLE}.file;;
   }
 
   dimension: library {
+    group_label: "Frames"
     type: string
     description: "The display name of the library that includes this frame."
     sql: ${TABLE}.library;;
@@ -621,18 +665,21 @@ view: crashlytics__threads__frames {
   }
 
   dimension: offset {
+    group_label: "Frames"
     type: number
     description: "The byte offset into the binary image which contains the code."
     sql: ${TABLE}.offset;;
   }
 
   dimension: owner {
+    group_label: "Frames"
     type: string
     description: "The component of a mobile runtime that owns the frame. DEVELOPER, VENDOR, RUNTIME, PLATFORM, or SYSTEM."
     sql: ${TABLE}.owner;;
   }
 
   dimension: symbol {
+    group_label: "Frames"
     type: string
     description: "The hydrated symbol, or the raw symbol if it's unhydrateable."
     sql: ${TABLE}.symbol;;
@@ -641,48 +688,56 @@ view: crashlytics__threads__frames {
 
 view: crashlytics__exceptions__frames {
   dimension: address {
+    group_label: "Frames"
     type: number
     description: "The address in the binary image which contains the code."
     sql: ${TABLE}.address;;
   }
 
   dimension: blamed {
+    group_label: "Frames"
     type: yesno
     description: "Whether analysis blames this frame as the cause of the crash or error."
     sql: ${TABLE}.blamed;;
   }
 
   dimension: file {
+    group_label: "Frames"
     type: string
     description: "The filename of the frame."
     sql: ${TABLE}.file;;
   }
 
   dimension: library {
+    group_label: "Frames"
     type: string
     description: "The display name of the library that includes this frame."
     sql: ${TABLE}.library;;
   }
 
   dimension: line {
+    group_label: "Frames"
     type: number
     description: "Line number within the file of the frame."
     sql: ${TABLE}.line;;
   }
 
   dimension: offset {
+    group_label: "Frames"
     type: number
     description: "The byte offset into the binary image which contains the code."
     sql: ${TABLE}.offset;;
   }
 
   dimension: owner {
+    group_label: "Frames"
     type: string
     description: "The component of a mobile runtime that owns the frame. DEVELOPER, VENDOR, RUNTIME, PLATFORM, or SYSTEM."
     sql: ${TABLE}.owner;;
   }
 
   dimension: symbol {
+    group_label: "Frames"
     type: string
     description: "The hydrated symbol, or the raw symbol if it's unhydrateable."
     sql: ${TABLE}.symbol;;
@@ -691,12 +746,14 @@ view: crashlytics__exceptions__frames {
 
 view: crashlytics__breadcrumbs__params {
   dimension: key {
+    group_label: "Params"
     type: string
     description: "The key."
     sql: ${TABLE}.key;;
   }
 
   dimension: value {
+    group_label: "Params"
     type: string
     description: "The value."
     sql: ${TABLE}.value;;

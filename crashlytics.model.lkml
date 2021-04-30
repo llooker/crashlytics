@@ -4,7 +4,7 @@ include: "/views/*.view.lkml"                # include all views in the views/ f
 include: "/dashboards/*"
 
 explore: crashlytics {
-  view_label: "Core"
+  view_label: "Events"
   join: crashlytics__errors {
     view_label: "Errors"
     sql: LEFT JOIN UNNEST(${crashlytics.errors}) as crashlytics__errors;;
@@ -36,23 +36,28 @@ explore: crashlytics {
     relationship: one_to_many
   }
   join: crashlytics__errors__frames {
-    view_label: "Errors Frames"
+    view_label: "Errors"
     sql: LEFT JOIN UNNEST(${crashlytics__errors.frames}) as crashlytics__errors__frames;;
     relationship: one_to_many
   }
   join: crashlytics__threads__frames {
-    view_label: "Threads Frames"
+    view_label: "Threads"
     sql: LEFT JOIN UNNEST(${crashlytics__threads.frames}) as crashlytics__threads__frames;;
     relationship: one_to_many
   }
   join: crashlytics__exceptions__frames {
-    view_label: "Exceptions Frames"
+    view_label: "Exceptions"
     sql: LEFT JOIN UNNEST(${crashlytics__exceptions.frames}) as crashlytics__exceptions__frames;;
     relationship: one_to_many
   }
   join: crashlytics__breadcrumbs__params {
-    view_label: "Breadcrumbs Params"
+    view_label: "Breadcrumbs"
     sql: LEFT JOIN UNNEST(${crashlytics__breadcrumbs.params}) as crashlytics__breadcrumbs__params;;
     relationship: one_to_many
+  }
+  join: issue_facts {
+    view_label: "Issue"
+    sql_on: ${issue_facts.issue_id}=${crashlytics.issue_id} ;;
+    relationship: many_to_one
   }
   }
