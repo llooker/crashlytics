@@ -58,7 +58,6 @@
       Issue Last Seen: issue_facts.last_date_date
       Application Display Version: crashlytics.application__display_version
       Operating System Display Version: crashlytics.operating_system__display_version
-      Developer Platform: crashlytics.developer_platform
     row: 16
     col: 16
     width: 8
@@ -129,7 +128,6 @@
       Issue Last Seen: issue_facts.last_date_date
       Application Display Version: crashlytics.application__display_version
       Operating System Display Version: crashlytics.operating_system__display_version
-      Developer Platform: crashlytics.developer_platform
     row: 16
     col: 7
     width: 9
@@ -191,7 +189,6 @@
       Issue Last Seen: issue_facts.last_date_date
       Application Display Version: crashlytics.application__display_version
       Operating System Display Version: crashlytics.operating_system__display_version
-      Developer Platform: crashlytics.developer_platform
     row: 8
     col: 0
     width: 7
@@ -253,7 +250,6 @@
       Issue Last Seen: issue_facts.last_date_date
       Application Display Version: crashlytics.application__display_version
       Operating System Display Version: crashlytics.operating_system__display_version
-      Developer Platform: crashlytics.developer_platform
     row: 6
     col: 0
     width: 7
@@ -314,7 +310,6 @@
       Issue Last Seen: issue_facts.last_date_date
       Application Display Version: crashlytics.application__display_version
       Operating System Display Version: crashlytics.operating_system__display_version
-      Developer Platform: crashlytics.developer_platform
     row: 4
     col: 0
     width: 7
@@ -368,7 +363,6 @@
       Issue Last Seen: issue_facts.last_date_date
       Application Display Version: crashlytics.application__display_version
       Operating System Display Version: crashlytics.operating_system__display_version
-      Developer Platform: crashlytics.developer_platform
     row: 4
     col: 7
     width: 17
@@ -429,7 +423,6 @@
       Issue Last Seen: issue_facts.last_date_date
       Application Display Version: crashlytics.application__display_version
       Operating System Display Version: crashlytics.operating_system__display_version
-      Developer Platform: crashlytics.developer_platform
     row: 10
     col: 0
     width: 7
@@ -482,7 +475,6 @@
       Issue First Seen: issue_facts.first_date_date
       Application Display Version: crashlytics.application__display_version
       Operating System Display Version: crashlytics.operating_system__display_version
-      Developer Platform: crashlytics.developer_platform
     row: 10
     col: 7
     width: 17
@@ -544,17 +536,3 @@
     explore: crashlytics
     listens_to_filters: []
     field: crashlytics.operating_system__display_version
-  - name: Developer Platform
-    title: Developer Platform
-    type: field_filter
-    default_value: IOS
-    allow_multiple_values: true
-    required: false
-    ui_config:
-      type: dropdown_menu
-      display: inline
-      options: []
-    model: crashlytics
-    explore: crashlytics
-    listens_to_filters: []
-    field: crashlytics.developer_platform

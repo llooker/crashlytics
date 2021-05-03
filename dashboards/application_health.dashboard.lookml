@@ -35,7 +35,6 @@
     series_types: {}
     listen:
       Event Timestamp Time: crashlytics.event_timestamp_time
-      Developer Platform: crashlytics.developer_platform
     row: 5
     col: 6
     width: 6
@@ -59,7 +58,6 @@
     defaults_version: 1
     listen:
       Event Timestamp Time: crashlytics.event_timestamp_time
-      Developer Platform: crashlytics.developer_platform
     row: 5
     col: 0
     width: 6
@@ -97,7 +95,6 @@
     defaults_version: 1
     listen:
       Event Timestamp Time: crashlytics.event_timestamp_time
-      Developer Platform: crashlytics.developer_platform
     row: 7
     col: 0
     width: 6
@@ -133,7 +130,6 @@
     defaults_version: 1
     listen:
       Event Timestamp Time: crashlytics.event_timestamp_time
-      Developer Platform: crashlytics.developer_platform
     row: 7
     col: 6
     width: 6
@@ -202,8 +198,7 @@
         font_color: !!null '', color_application: {collection_id: google, palette_id: google-sequential-0},
         bold: false, italic: false, strikethrough: false, fields: !!null ''}]
     defaults_version: 1
-    listen:
-      Developer Platform: crashlytics.developer_platform
+    listen: {}
     row: 20
     col: 12
     width: 12
@@ -258,8 +253,7 @@
     label_type: labPer
     inner_radius: 50
     defaults_version: 1
-    listen:
-      Developer Platform: crashlytics.developer_platform
+    listen: {}
     row: 3
     col: 12
     width: 12
@@ -323,8 +317,7 @@
     label_type: labPer
     inner_radius: 50
     defaults_version: 1
-    listen:
-      Developer Platform: crashlytics.developer_platform
+    listen: {}
     row: 11
     col: 0
     width: 6
@@ -350,8 +343,7 @@
     conditional_formatting_include_nulls: false
     series_types: {}
     defaults_version: 1
-    listen:
-      Developer Platform: crashlytics.developer_platform
+    listen: {}
     row: 9
     col: 0
     width: 6
@@ -375,8 +367,7 @@
     conditional_formatting_include_nulls: false
     series_types: {}
     defaults_version: 1
-    listen:
-      Developer Platform: crashlytics.developer_platform
+    listen: {}
     row: 9
     col: 6
     width: 6
@@ -437,8 +428,7 @@
         type: linear}]
     hide_legend: true
     defaults_version: 1
-    listen:
-      Developer Platform: crashlytics.developer_platform
+    listen: {}
     row: 20
     col: 0
     width: 12
@@ -493,8 +483,7 @@
     label_type: labPer
     inner_radius: 50
     defaults_version: 1
-    listen:
-      Developer Platform: crashlytics.developer_platform
+    listen: {}
     row: 11
     col: 12
     width: 12
@@ -544,8 +533,7 @@
         type: linear}]
     hide_legend: true
     defaults_version: 1
-    listen:
-      Developer Platform: crashlytics.developer_platform
+    listen: {}
     row: 25
     col: 0
     width: 12
@@ -601,8 +589,7 @@
       crashlytics.count_issues: "#F9AB00"
     show_null_points: true
     defaults_version: 1
-    listen:
-      Developer Platform: crashlytics.developer_platform
+    listen: {}
     row: 11
     col: 6
     width: 6
@@ -622,17 +609,3 @@
     explore: crashlytics
     listens_to_filters: []
     field: crashlytics.event_timestamp_time
-  - name: Developer Platform
-    title: Developer Platform
-    type: field_filter
-    default_value: IOS
-    allow_multiple_values: true
-    required: false
-    ui_config:
-      type: dropdown_menu
-      display: inline
-      options: []
-    model: crashlytics
-    explore: crashlytics
-    listens_to_filters: []
-    field: crashlytics.developer_platform

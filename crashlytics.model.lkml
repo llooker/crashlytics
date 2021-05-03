@@ -4,11 +4,6 @@ include: "/views/*.view.lkml"
 include: "/dashboards/*"
 
 explore: crashlytics {
-  always_filter: {
-    filters: [
-      crashlytics.developer_platform: "IOS"
-    ]
-  }
   view_label: "Events"
   join: crashlytics__errors {
     view_label: "Errors"

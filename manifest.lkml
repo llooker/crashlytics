@@ -1,9 +1,10 @@
 ################ Constants ################
 
-constant: SCHEMA_NAME {
-  value: "firebase_crashlytics"
+constant: TABLE_NAME {
+  value: "com_wishabi_Flipp_iOS_IOS"
 }
 
-constant: APP_NAME {
-  value: "com_wishabi_Flipp_iOS"
+
+constant: SCHEMA_NAME {
+  value: "firebase_crashlytics"
 }

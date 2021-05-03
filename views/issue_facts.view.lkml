@@ -6,10 +6,6 @@ view: issue_facts {
       column: issue_id {}
       column: first_date {}
       column: last_date {}
-      bind_filters: {
-        from_field: crashlytics.developer_platform
-        to_field: crashlytics.developer_platform
-      }
     }
   }
 

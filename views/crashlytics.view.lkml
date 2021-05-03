@@ -1,19 +1,5 @@
 view: crashlytics {
-  sql_table_name: `@{SCHEMA_NAME}.@{APP_NAME}_{% parameter developer_platform %}`;;
-
-  parameter: developer_platform {
-    type: unquoted
-    description: "The platform, either WEB, IOS or ANDROID (used to chose the table)"
-    allowed_value: {
-      value: "IOS"
-    }
-    allowed_value: {
-      value: "WEB"
-    }
-    allowed_value: {
-      value: "ANDROID"
-    }
-  }
+  sql_table_name: `@{SCHEMA_NAME}.@{TABLE_NAME}`;;
 
   dimension: app_orientation {
     type: string
@@ -759,4 +745,10 @@ view: crashlytics__breadcrumbs__params {
     description: "The value."
     sql: ${TABLE}.value;;
   }
+
+  dimension:  merchant_id{
+    type: string
+    sql:case when ${crashlytics__breadcrumbs.name} = 'StorefrontOpen' and ${key} = 'merchant_id' then ${value} else null end  ;;
+  }
+
 }
