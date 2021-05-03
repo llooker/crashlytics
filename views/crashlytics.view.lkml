@@ -189,7 +189,7 @@ view: crashlytics {
     view_label: "Issue"
     link: {
       label: "Issue Investigation Dashboard"
-      url: "/dashboards-next/2?Issue+ID={{ issue_id._value }}"
+      url: "/dashboards-next/crashlytics::issue_investigation?Issue+ID={{ issue_id._value }}"
     }
   }
 
