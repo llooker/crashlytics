@@ -285,10 +285,6 @@ view: crashlytics {
     description: "The email address of the end-user."
     sql: ${TABLE}.user.email;;
     group_label: "User"
-    action: {
-      label: "Send User an Email"
-      url: "https://send_user+email.com"
-    }
   }
 
   dimension: user__id {
