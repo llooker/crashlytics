@@ -6,7 +6,9 @@ ___
 ### What does this Block do for me?
 
 **(1) Understand Overall Application Health** - Use the Application Health dashboard to understand high level metrics that indicate how well the application is performing overall
+
 **(2) Prioritize Issues to Investigate** - Use the Issue Prioritization dashboard to determine which issues need your attention and determine where your team should spend their time
+
 **(3) Drill into Details and Plan to Resolve Issues** - Look at the details surrounding a specific issue to determine a course of action for resolving the bug
 
 
