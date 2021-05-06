@@ -1,5 +1,21 @@
 view: crashlytics {
-  sql_table_name: `@{SCHEMA_NAME}.@{TABLE_NAME}`;;
+  sql_table_name: `@{SCHEMA_NAME}.@{APP_NAME}_{{ "@{PLATFORM}" | replace: ".", "_" }}`;;
+
+  ### FOR URL ###
+
+  dimension: app_ {
+    sql: "@{APP_NAME}"  ;;
+  }
+
+  dimension: platform_ {
+    sql: "@{PLATFORM}" ;;
+  }
+
+  dimension: project_ {
+    sql: "@{PROJECT}" ;;
+  }
+
+  ##################
 
   dimension: app_orientation {
     type: string
@@ -190,6 +206,10 @@ view: crashlytics {
     link: {
       label: "Issue Investigation Dashboard"
       url: "/dashboards-next/crashlytics::issue_investigation?Issue+ID={{ issue_id._value }}"
+    }
+    link: {
+      label: "Crashlytics Issue"
+      url: "https://console.firebase.google.com/project/{{ project_._value }}/crashlytics/app/{{ platform_._value }}:{{ app_._value }}/issues/{{ issue_id._value }}"
     }
   }
 
@@ -741,10 +761,4 @@ view: crashlytics__breadcrumbs__params {
     description: "The value."
     sql: ${TABLE}.value;;
   }
-
-  dimension:  merchant_id{
-    type: string
-    sql:case when ${crashlytics__breadcrumbs.name} = 'StorefrontOpen' and ${key} = 'merchant_id' then ${value} else null end  ;;
-  }
-
 }
