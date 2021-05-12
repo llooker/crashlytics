@@ -1,17 +1,21 @@
 ################ Constants ################
 
 constant: APP_NAME {
-  value: "com_wishabi_Flipp_iOS"
+  value: ""
 }
 
 constant: PLATFORM {
-  value: "IOS"
+  value: ""
 }
 
 constant: PROJECT {
-  value: "com-wishabi-flipp"
+  value: ""
 }
 
 constant: SCHEMA_NAME {
-  value: "firebase_crashlytics"
+  value: ""
+}
+
+constant: CONNECTION {
+  value: ""
 }
