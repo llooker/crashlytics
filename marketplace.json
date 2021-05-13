@@ -1,0 +1,22 @@
+
+{
+  "label": "Firebase Crashlytics",
+  "category_label": "Models",
+  "branding": {
+    "image_uri": "https://marketplace-api.looker.com/block-icons/crashlytics_icon.png",
+    "tagline": "Analyzing and Taking Action on Firebase Application Crashes."
+  },
+
+  "constants": {
+    "CONNECTION_NAME": {
+      "label": "Connection Name",
+      "value_constraint": "connection"
+    }
+  },
+  "models": [
+    {
+      "name": "crashlytics",
+      "connection_constant": "CONNECTION_NAME"
+    }
+  ]
+}
