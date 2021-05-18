@@ -1,7 +1,7 @@
 view: crashlytics {
-  sql_table_name: `@{SCHEMA_NAME}.@{APP_NAME}`;;
+  sql_table_name: `@{SCHEMA_NAME}.@{APP_NAME}` ;;
 
-  #### FOR URL ####
+  ### FOR URL ####
 
   dimension: app_ {
     sql: "@{APP_NAME}"  ;;
