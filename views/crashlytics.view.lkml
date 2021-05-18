@@ -1,5 +1,5 @@
 view: crashlytics {
-  sql_table_name: `@{SCHEMA_NAME}.@{APP_NAME}_{{ "@{PLATFORM}" | replace: ".", "_" }}`;;
+  sql_table_name: `@{SCHEMA_NAME}.@{APP_NAME}`;;
 
   #### FOR URL ####
 
