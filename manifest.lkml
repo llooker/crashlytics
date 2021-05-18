@@ -1,26 +1,26 @@
 ################ Constants ################
 
 constant: APP_NAME {
-  value: ""
+  value: "com_google_friendlypix"
   export: override_required
 }
 
 constant: PLATFORM {
-  value: ""
+  value: "IOS"
   export: override_required
 }
 
 constant: PROJECT {
-  value: ""
+  value: "leigha-bq-dev"
   export: override_required
 }
 
 constant: SCHEMA_NAME {
-  value: ""
+  value: "crashlytics"
   export: override_required
 }
 
 constant: CONNECTION {
-  value: ""
+  value: "leigha-bq-dev"
   export: override_required
 }
