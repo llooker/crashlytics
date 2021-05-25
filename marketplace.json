@@ -19,7 +19,7 @@
   },
   "models": [
     {
-      "name": "crashlytics",
+      "name": "sap",
       "connection_constant": "CONNECTION"
     }
   ]
