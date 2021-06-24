@@ -9,7 +9,6 @@
     explore: crashlytics
     type: looker_column
     fields: [crashlytics.count_issues, crashlytics.application__display_version]
-    filters: {}
     sorts: [crashlytics.application__display_version desc]
     limit: 15
     x_axis_gridlines: false
@@ -61,7 +60,6 @@
   - name: ''
     type: text
     title_text: ''
-    subtitle_text: ''
     body_text: |-
       <h1 style="text-align:center">⏱  Issue Prioritization</h1>
       <h3 style="text-align:center">Determine which Issues Should be the Focal Point</h3>
@@ -370,7 +368,6 @@
     type: looker_bar
     fields: [crashlytics.user_count, crashlytics.issue_title, crashlytics.issue_id,
       crashlytics.count]
-    filters: {}
     sorts: [crashlytics.user_count desc]
     limit: 15
     column_limit: 50
@@ -532,15 +529,16 @@
     col: 0
     width: 7
     height: 6
-  - title: Issues by Last Date Seen (Past 4 Weeks) (Copy)
-    name: Issues by Last Date Seen (Past 4 Weeks) (Copy)
+  - title: Issues by Date Seen (Past 4 Weeks)
+    name: Issues by Date Seen (Past 4 Weeks)
     model: crashlytics
     explore: crashlytics
     type: looker_line
-    fields: [crashlytics.count_issues, crashlytics.user_count, issue_facts.last_date_date]
-    fill_fields: [issue_facts.last_date_date]
+    fields: [crashlytics.count_issues, crashlytics.user_count, crashlytics.event_timestamp_date]
+    fill_fields: [crashlytics.event_timestamp_date]
     filters:
-      issue_facts.last_date_date: 4 weeks
+      crashlytics.event_timestamp_date: 4 weeks
+    sorts: [crashlytics.event_timestamp_date desc]
     limit: 500
     column_limit: 50
     x_axis_gridlines: false
@@ -594,7 +592,7 @@
     required: false
     ui_config:
       type: advanced
-      display: inline
+      display: popover
       options: []
     model: crashlytics
     explore: crashlytics
@@ -656,3 +654,4 @@
     explore: crashlytics
     listens_to_filters: []
     field: crashlytics.process_state
+
