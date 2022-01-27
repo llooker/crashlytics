@@ -209,7 +209,7 @@ view: crashlytics {
     }
     link: {
       label: "Crashlytics Issue"
-      url: "https://console.firebase.google.com/project/{{ project_._value }}/crashlytics/app/{{ platform_._value }}:{{ app_._value }}/issues/{{ issue_id._value }}"
+      url: "https://console.firebase.google.com/project/{{ project_._value }}/crashlytics/app/{{ platform_._value | downcase }}:{{ app_._value | replace:'_','.' }}/issues/{{ issue_id._value }}"
     }
   }
 
